@@ -26,7 +26,7 @@ android {
         // versionName = git tag at HEAD, or <base>-dev+<hash> when untagged
         def git_tag = "git tag --points-at HEAD".execute().text.trim().readLines().find { it.startsWith('v') }
 
-        applicationId "cn.wankkoree.xp.portrait2landscape"
+        applicationId "com.zombie12138.nobiliportrait"
         minSdk 21
         targetSdk 33
         versionCode git_count.toInteger()
@@ -54,7 +54,7 @@ android {
         jvmTarget = 11
     }
 
-    namespace 'cn.wankkoree.xp.portrait2landscape'
+    namespace 'com.zombie12138.nobiliportrait'
 
     applicationVariants.configureEach { variant ->
         variant.outputs.configureEach {

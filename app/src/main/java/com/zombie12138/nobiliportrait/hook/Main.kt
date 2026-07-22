@@ -1,6 +1,6 @@
-package cn.wankkoree.xp.portrait2landscape.hook
+package com.zombie12138.nobiliportrait.hook
 
-import cn.wankkoree.xp.portrait2landscape.BuildConfig
+import com.zombie12138.nobiliportrait.BuildConfig
 import com.highcapable.yukihookapi.YukiHookAPI
 import com.highcapable.yukihookapi.annotation.xposed.InjectYukiHookWithXposed
 import com.highcapable.yukihookapi.hook.xposed.proxy.IYukiHookXposedInit

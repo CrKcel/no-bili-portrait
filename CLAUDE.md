@@ -33,7 +33,7 @@ The KSP-generated `Entry` class does not exist in source — it only appears aft
 ./gradlew assembleDebug     # debug APK with logging enabled
 ```
 
-Output APK lands in `app/build/outputs/apk/<type>/` named `cn.wankkoree.xp.portrait2landscape-<versionName>_<versionCode>-<type>.apk`. `versionName` embeds the git commit count and short hash (computed in `app/build.gradle` via `git rev-list`), so builds must run inside the git work tree.
+Output APK lands in `app/build/outputs/apk/<type>/` named `com.zombie12138.nobiliportrait-<versionName>_<versionCode>-<type>.apk`. `versionCode` is the git commit count and `versionName` is the git tag at HEAD (or `<base>-dev+<short hash>` when untagged), both computed in `app/build.gradle` via `git rev-list`/`git tag`, so builds must run inside the git work tree (CI must use `fetch-depth: 0`).
 
 There are no tests, no lint config, and no CI; this is a single-purpose hook module.
 
@@ -47,6 +47,6 @@ There are no tests, no lint config, and no CI; this is a single-purpose hook mod
 
 ## Versioning / packaging notes
 
-- Package was renamed to `cn.wankkoree.xp.portrait2landscape` (from an older name) specifically to avoid Bilibili's module detection — see commit `2cc2690`. Keep this in mind before changing `applicationId`/`namespace`.
-- `app/build.gradle` `versionName` is `v2.0.<gitCount>.<gitHash>`; bump the `v2.0` literal and `versionCode` manually for releases.
+- Package was renamed to `com.zombie12138.nobiliportrait` (this fork). The upstream original used `cn.wankkoree.xp.portrait2landscape`, itself renamed from an older name to avoid Bilibili's module detection (commit `2cc2690`). The applicationId/namespace is now `com.zombie12138.nobiliportrait`; keep this consistent across `build.gradle`, the code package, and `assets/xposed_init`/`assets/yukihookapi_init`.
+- `app/build.gradle` derives `versionCode` from the git commit count and `versionName` from the git tag at HEAD (or `<base>-dev+<short hash>` when untagged). Release by pushing a `v*` tag (e.g. `v3.0.0`); no manual version bump. CI must use `fetch-depth: 0` so the commit count is correct.
 - Dependency repos in `settings.gradle` include the Xposed Maven (`api.xposed.info`), Sonatype (YukiHookAPI), and an Aliyun mirror.

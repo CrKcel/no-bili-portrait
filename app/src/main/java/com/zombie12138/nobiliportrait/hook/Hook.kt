@@ -1,4 +1,4 @@
-package cn.wankkoree.xp.portrait2landscape.hook
+package com.zombie12138.nobiliportrait.hook
 
 import android.net.Uri
 import com.highcapable.yukihookapi.hook.entity.YukiBaseHooker
