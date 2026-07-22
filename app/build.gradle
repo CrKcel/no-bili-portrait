@@ -22,12 +22,15 @@ android {
     defaultConfig {
         def git_count = "git rev-list HEAD --count".execute().text.trim()
         def git_hash = "git rev-list HEAD --abbrev-commit --max-count=1".execute().text.trim()
+        // versionCode = git commit count (monotonic; CI needs fetch-depth: 0)
+        // versionName = git tag at HEAD, or <base>-dev+<hash> when untagged
+        def git_tag = "git tag --points-at HEAD".execute().text.trim().readLines().find { it.startsWith('v') }
 
         applicationId "cn.wankkoree.xp.portrait2landscape"
         minSdk 21
         targetSdk 33
-        versionCode 4
-        versionName "v2.0.$git_count.$git_hash"
+        versionCode git_count.toInteger()
+        versionName git_tag ?: "v3.0.0-dev+$git_hash"
     }
 
     buildTypes {
