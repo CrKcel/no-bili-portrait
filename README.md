@@ -1,26 +1,60 @@
-# 禁止竖屏 / No Bilibili Portrait
+<p align="center">
+  <img src="docs/assets/logo.svg" width="144" height="144" alt="禁止竖屏 Logo">
+</p>
 
-> 强制哔哩哔哩 App 用传统播放器播放竖屏视频，拒绝"看一看"竖屏信息流。
+<h1 align="center">禁止竖屏</h1>
 
-Forked from [WankkoRee/Portrait2Landscape](https://github.com/WankkoRee/Portrait2Landscape)，适配 Bilibili 8.x（原版在 7.x 后失效）。
+<p align="center">
+  <a href="README.md">简体中文</a> | <a href="README_EN.md">English</a>
+</p>
 
-## 原理
+<p align="center"><strong>让哔哩哔哩竖屏视频回到传统视频播放器。</strong></p>
 
-哔哩哔哩把竖屏视频路由到 `bilibili://story/...`（"看一看"播放器），横屏路由到 `bilibili://video/...`（传统播放器）。8.x 在点击时用 avid 现场拼出 story URL 再交给统一路由 BLRouter，绕过了原版 hook 的卡片字段。本模块 hook `RouteRequest.Builder` 的构造函数，在路由入口把 `story` 改写成 `video`，覆盖所有经 BLRouter 的路径。构造函数签名跨版本稳定未混淆，所以在 8.x 各版本通用。
+点击竖屏视频时，不再进入“看一看”竖屏信息流，而是像普通视频一样使用传统播放器打开。
 
-## 支持版本
+## 效果
 
-- 标准版 `tv.danmaku.bili`：已验证 8.60.0、8.97.0
-- 国际版 `com.bilibili.app.in`：未测试
+- 将 `story` 竖屏视频入口重定向到传统视频播放器。
+- 首页卡片仍然显示竖屏标识，点击后使用传统视频播放器播放。
+- 模块启用后自动生效，无需单独配置。
 
-## 安装
+## 安装与兼容性
 
-LSPosed/Xposed 模块，需 root + LSPosed（Android 15 用社区 fork [LSPosed_mod](https://github.com/mywalkb/LSPosed_mod)）。
+开始前，请确认设备已经 Root，并已安装支持传统 Xposed API 的框架。推荐使用 LSPosed 2.x（[下载链接](https://lsposed.zip)），本模块已在 LSPosed 2.1.1（7790）上验证。其他兼容传统 Xposed API 的框架，例如 [Vector](https://github.com/JingMatrix/Vector)，目前尚未完成真机验证。
 
-1. 从 [Releases](https://github.com/zombie12138/no-bili-portrait/releases) 下载 APK 安装
-2. LSPosed 管理器启用模块，作用域勾选哔哩哔哩
-3. 重启哔哩哔哩
+哔哩哔哩版本支持情况：
+
+- 标准版 `tv.danmaku.bili`：已验证 8.60.0、8.97.0。
+- 其他 8.x 版本：可能兼容，但未逐版本验证。
+- 国际版 `com.bilibili.app.in`：已提供作用域支持，但尚未测试。
+
+安装步骤：
+
+1. 从 [Releases](https://github.com/zombie12138/no-bili-portrait/releases) 下载并安装最新 APK。
+2. 在 Xposed 框架管理器中启用“禁止竖屏”。
+3. 设置模块作用域。标准版选择 `tv.danmaku.bili`，国际版选择 `com.bilibili.app.in`。
+4. 强行停止哔哩哔哩，然后重新打开。
+5. 点击一个竖屏视频，确认它进入传统视频播放器。
+
+## 工作原理
+
+哔哩哔哩通过内部链接决定打开哪一种播放器：
+
+- `bilibili://story/...` 打开“看一看”竖屏信息流。
+- `bilibili://video/...` 打开传统视频播放器。
+
+本模块在路由请求创建时拦截 `story` 链接，并将它改写成 `video` 链接。
+
+## 问题反馈
+
+如果模块没有生效，请先检查 Xposed 框架是否工作、模块是否启用、作用域是否正确，并强行停止后重新打开哔哩哔哩。仍有问题时，请尝试重启设备。
+
+如果问题仍然存在，请在 [Issues](https://github.com/zombie12138/no-bili-portrait/issues) 反馈，并附上模块版本、哔哩哔哩版本、Android 版本、Xposed 框架版本和相关日志。
 
 ## 致谢
 
-原作者 [WankkoRee](https://github.com/WankkoRee) 的 [Portrait2Landscape](https://github.com/WankkoRee/Portrait2Landscape)。
+本项目基于 [WankkoRee/Portrait2Landscape](https://github.com/WankkoRee/Portrait2Landscape) 修改，感谢原作者提供的实现思路。
+
+## 许可证
+
+本项目采用 [GPL-3.0](LICENSE) 许可证。
